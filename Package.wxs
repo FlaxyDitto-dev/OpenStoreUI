@@ -1,0 +1,45 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
+     xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
+
+  <Package Name="OpenStore UI"
+           Manufacturer="OpenStore"
+           Version="1.0.0.0"
+           UpgradeCode="4F392A10-9092-4C98-A122-38B132470129"
+           Scope="perMachine">
+
+    <MajorUpgrade DowngradeErrorMessage="A newer version of OpenStore UI is already installed." />
+    
+    <!-- Standard Setup Wizard UI -->
+    <ui:WixUI Id="WixUI_InstallDir" InstallDirectory="INSTALLFOLDER" />
+
+    <DirectoryRef Id="INSTALLFOLDER">
+      <Component Id="MainExecutable" Guid="8E1C2893-60B7-44E2-9903-83E88172901B">
+        <!-- Main Application Executable -->
+        <File Id="AppExe" Source="publish\OpenStoreUI.exe" KeyPath="yes">
+          <!-- Windows Start Menu Shortcut -->
+          <Shortcut Id="StartMenuShortcut"
+                    Directory="ProgramMenuFolder"
+                    Name="OpenStore UI"
+                    WorkingDirectory="INSTALLFOLDER"
+                    Icon="AppIcon"
+                    Advertise="yes" />
+        </File>
+      </Component>
+    </DirectoryRef>
+
+    <!-- Installation Directory Configuration -->
+    <StandardDirectory Id="ProgramFiles64Folder">
+      <Directory Id="INSTALLFOLDER" Name="OpenStore UI" />
+    </StandardDirectory>
+
+    <StandardDirectory Id="ProgramMenuFolder" />
+
+    <!-- Feature Grouping -->
+    <Feature Id="MainFeature" Title="OpenStore UI Application" Level="1">
+      <ComponentRef Id="MainExecutable" />
+      <ComponentGroupRef Id="PublishedFiles" />
+    </Feature>
+
+    <Icon Id="AppIcon" SourceFile="publish\OpenStoreUI.exe" />
+  </Package>
+</Wix>
