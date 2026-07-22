@@ -1,47 +1,23 @@
-<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
-     xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <RootNamespace>OpenStoreUI</RootNamespace>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Platforms>x64;x86;ARM64</Platforms>
+    <RuntimeIdentifiers>win-x64;win-x86;win-arm64</RuntimeIdentifiers>
 
-  <Package Name="OpenStore UI"
-           Manufacturer="OpenStore"
-           Version="1.0.0.0"
-           UpgradeCode="4F392A10-9092-4C98-A122-38B132470129"
-           Scope="perMachine">
+    <!-- Enables self-contained WinUI 3 binaries -->
+    <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+    <SelfContained>true</SelfContained>
+    <PublishSingleFile>false</PublishSingleFile>
+    <EnableMsixTooling>true</EnableMsixTooling>
+  </PropertyGroup>
 
-    <MajorUpgrade DowngradeErrorMessage="A newer version of OpenStore UI is already installed." />
-    
-    <!-- Setup Wizard UI -->
-    <ui:WixUI Id="WixUI_InstallDir" InstallDirectory="INSTALLFOLDER" />
-
-    <!-- Installation Directory in Program Files -->
-    <StandardDirectory Id="ProgramFiles64Folder">
-      <Directory Id="INSTALLFOLDER" Name="OpenStore UI">
-        <Component Id="MainExecutable" Guid="8E1C2893-60B7-44E2-9903-83E88172901B">
-          <!-- Main App Executable + Start Menu Shortcut -->
-          <File Id="AppExe" Source="publish\OpenStoreUI.exe" KeyPath="yes">
-            <Shortcut Id="StartMenuShortcut"
-                      Directory="ProgramMenuFolder"
-                      Name="OpenStore UI"
-                      WorkingDirectory="INSTALLFOLDER"
-                      Icon="AppIcon"
-                      Advertise="yes" />
-          </File>
-        </Component>
-      </Directory>
-    </StandardDirectory>
-
-    <StandardDirectory Id="ProgramMenuFolder" />
-
-    <!-- Automatically harvest all DLLs, resources.pri, and assets into INSTALLFOLDER -->
-    <ComponentGroup Id="PublishedFiles" Directory="INSTALLFOLDER">
-      <Files Include="publish\**" />
-    </ComponentGroup>
-
-    <!-- Main Feature Grouping -->
-    <Feature Id="MainFeature" Title="OpenStore UI Application" Level="1">
-      <ComponentRef Id="MainExecutable" />
-      <ComponentGroupRef Id="PublishedFiles" />
-    </Feature>
-
-    <Icon Id="AppIcon" SourceFile="publish\OpenStoreUI.exe" />
-  </Package>
-</Wix>
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240311000" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1" />
+  </ItemGroup>
+</Project>
