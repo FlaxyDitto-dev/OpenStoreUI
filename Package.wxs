@@ -9,32 +9,34 @@
 
     <MajorUpgrade DowngradeErrorMessage="A newer version of OpenStore UI is already installed." />
     
-    <!-- Standard Setup Wizard UI -->
+    <!-- Setup Wizard UI -->
     <ui:WixUI Id="WixUI_InstallDir" InstallDirectory="INSTALLFOLDER" />
 
-    <DirectoryRef Id="INSTALLFOLDER">
-      <Component Id="MainExecutable" Guid="8E1C2893-60B7-44E2-9903-83E88172901B">
-        <!-- Main Application Executable -->
-        <File Id="AppExe" Source="publish\OpenStoreUI.exe" KeyPath="yes">
-          <!-- Windows Start Menu Shortcut -->
-          <Shortcut Id="StartMenuShortcut"
-                    Directory="ProgramMenuFolder"
-                    Name="OpenStore UI"
-                    WorkingDirectory="INSTALLFOLDER"
-                    Icon="AppIcon"
-                    Advertise="yes" />
-        </File>
-      </Component>
-    </DirectoryRef>
-
-    <!-- Installation Directory Configuration -->
+    <!-- Installation Directory in Program Files -->
     <StandardDirectory Id="ProgramFiles64Folder">
-      <Directory Id="INSTALLFOLDER" Name="OpenStore UI" />
+      <Directory Id="INSTALLFOLDER" Name="OpenStore UI">
+        <Component Id="MainExecutable" Guid="8E1C2893-60B7-44E2-9903-83E88172901B">
+          <!-- Main App Executable + Start Menu Shortcut -->
+          <File Id="AppExe" Source="publish\OpenStoreUI.exe" KeyPath="yes">
+            <Shortcut Id="StartMenuShortcut"
+                      Directory="ProgramMenuFolder"
+                      Name="OpenStore UI"
+                      WorkingDirectory="INSTALLFOLDER"
+                      Icon="AppIcon"
+                      Advertise="yes" />
+          </File>
+        </Component>
+      </Directory>
     </StandardDirectory>
 
     <StandardDirectory Id="ProgramMenuFolder" />
 
-    <!-- Feature Grouping -->
+    <!-- Automatically harvest all DLLs, resources.pri, and assets into INSTALLFOLDER -->
+    <ComponentGroup Id="PublishedFiles" Directory="INSTALLFOLDER">
+      <Files Include="publish\**" />
+    </ComponentGroup>
+
+    <!-- Main Feature Grouping -->
     <Feature Id="MainFeature" Title="OpenStore UI Application" Level="1">
       <ComponentRef Id="MainExecutable" />
       <ComponentGroupRef Id="PublishedFiles" />
