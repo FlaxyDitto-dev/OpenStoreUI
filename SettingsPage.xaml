@@ -1,0 +1,20 @@
+<Page
+    x:Class="OpenStoreUI.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <StackPanel Margin="24" Spacing="20">
+        <TextBlock Text="Settings" Style="{StaticResource TitleTextBlockStyle}"/>
+
+        <StackPanel Spacing="8">
+            <TextBlock Text="Default Search Source" Style="{StaticResource SubtitleTextBlockStyle}"/>
+            <TextBlock Text="Choose where to search for software packages." Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
+            
+            <ComboBox x:Name="SourceComboBox" Width="240" SelectionChanged="SourceComboBox_SelectionChanged" Margin="0,8,0,0">
+                <ComboBoxItem Content="All Sources (WinGet + Microsoft Store)" Tag="all"/>
+                <ComboBoxItem Content="WinGet Community Repo Only" Tag="winget"/>
+                <ComboBoxItem Content="Microsoft Store Only" Tag="msstore"/>
+            </ComboBox>
+        </StackPanel>
+    </StackPanel>
+</Page>
